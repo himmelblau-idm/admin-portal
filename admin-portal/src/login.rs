@@ -97,6 +97,12 @@ pub fn LoginPage(checking: bool, on_login: EventHandler<TokenInfo>) -> Element {
                     }
                 }
 
+                if *loading.read() {
+                    p { class: "pin-hint",
+                        "🔐 A PIN dialog may appear — enter your Hello PIN to continue."
+                    }
+                }
+
                 p { class: "login-hint",
                     "Authentication is handled securely via the Himmelblau identity broker."
                 }

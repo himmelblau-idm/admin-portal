@@ -109,11 +109,13 @@ pub async fn broker_get_accounts() -> Result<Vec<BrokerAccount>, String> {
 
 pub async fn broker_acquire_silent(account: &BrokerAccount) -> Result<BrokerTokenResponse, String> {
     let conn = broker_connection().await?;
+    // TokenReq format: account at root + authParameters.requestedScopes (required)
     let request = serde_json::json!({
         "account": account,
-        "clientId": CLIENT_ID,
-        "scopes": ["https://graph.microsoft.com/.default"],
-        "authority": format!("https://login.microsoftonline.com/{}", account.realm)
+        "authParameters": {
+            "requestedScopes": ["https://graph.microsoft.com/.default"],
+            "clientId": CLIENT_ID
+        }
     });
     let result = call_broker(&conn, "acquireTokenSilently", &request.to_string(), Duration::from_secs(20)).await?;
     let parsed: AcquireTokenResult =
@@ -126,31 +128,37 @@ pub async fn broker_acquire_silent(account: &BrokerAccount) -> Result<BrokerToke
 pub async fn broker_acquire_interactive() -> Result<(BrokerAccount, BrokerTokenResponse), String> {
     let conn = broker_connection().await?;
 
-    // Get any cached accounts first (reuse same connection)
+    // Get the cached account so we can pass username to the session broker
+    // (it uses it to identify the PAM user for Pinentry auth)
     let accounts_request = serde_json::json!({ "clientId": CLIENT_ID });
     let accounts_result = call_broker(&conn, "getAccounts", &accounts_request.to_string(), Duration::from_secs(15)).await?;
     let accounts_parsed: GetAccountsResponse = serde_json::from_str(&accounts_result)
         .map_err(|e| format!("Failed to parse accounts: {e}"))?;
     let accounts = accounts_parsed.accounts;
 
+    // TokenReq format: account at root + authParameters.requestedScopes (required).
+    // The session broker uses account.username to invoke PAM / Pinentry, then
+    // forwards this same JSON to the daemon's acquireTokenSilently.
     let request = if let Some(account) = accounts.first() {
         serde_json::json!({
             "account": account,
-            "clientId": CLIENT_ID,
-            "scopes": ["https://graph.microsoft.com/.default"],
-            "authority": format!("https://login.microsoftonline.com/{}", account.realm),
-            "additionalQueryParametersForAuthorization": {}
+            "authParameters": {
+                "requestedScopes": ["https://graph.microsoft.com/.default"],
+                "clientId": CLIENT_ID
+            }
         })
     } else {
+        // No cached account — broker still needs a valid username; this will
+        // likely fail, but give it a chance with an empty account object.
         serde_json::json!({
-            "clientId": CLIENT_ID,
-            "scopes": ["https://graph.microsoft.com/.default"],
-            "authority": "https://login.microsoftonline.com/common",
-            "additionalQueryParametersForAuthorization": {}
+            "authParameters": {
+                "requestedScopes": ["https://graph.microsoft.com/.default"],
+                "clientId": CLIENT_ID
+            }
         })
     };
 
-    // Interactive auth can take several minutes (user completes browser flow)
+    // Interactive auth can take several minutes (user must respond to Pinentry)
     let result = call_broker(&conn, "acquireTokenInteractively", &request.to_string(), Duration::from_secs(300)).await?;
     let parsed: AcquireTokenResult =
         serde_json::from_str(&result).map_err(|e| format!("Failed to parse token response: {e}"))?;
@@ -158,7 +166,7 @@ pub async fn broker_acquire_interactive() -> Result<(BrokerAccount, BrokerTokenR
         .broker_token_response
         .ok_or_else(|| "No token in interactive response".to_string())?;
 
-    // Re-fetch accounts on same connection to get updated account info
+    // Re-fetch accounts to get the freshest account info after auth
     let updated_result = call_broker(&conn, "getAccounts", &accounts_request.to_string(), Duration::from_secs(15)).await.unwrap_or_default();
     let updated_accounts: Vec<BrokerAccount> = serde_json::from_str::<GetAccountsResponse>(&updated_result)
         .map(|r| r.accounts)

@@ -81,6 +81,18 @@
   line-height: 1.4;
 }
 
+.pin-hint {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: #1e40af;
+  text-align: center;
+  line-height: 1.4;
+}
+
 /* ── Auth info card in dashboard ───────────────────────────────────────────── */
 .auth-badge {
   display: inline-flex;
@@ -417,5 +429,11 @@
 
   .login-hint {
     color: #6b7280;
+  }
+
+  .pin-hint {
+    background: #1e3a5f;
+    border-color: #2563eb;
+    color: #93c5fd;
   }
 }
