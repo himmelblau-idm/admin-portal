@@ -94,7 +94,7 @@ pub async fn broker_get_accounts() -> Result<Vec<BrokerAccount>, String> {
     let request = serde_json::json!({
         "clientId": CLIENT_ID
     });
-    let result = call_broker(&conn, "getAccounts", &request.to_string(), Duration::from_secs(30)).await?;
+    let result = call_broker(&conn, "getAccounts", &request.to_string(), Duration::from_secs(5)).await?;
     let parsed: GetAccountsResponse =
         serde_json::from_str(&result).map_err(|e| format!("Failed to parse accounts: {e}"))?;
     Ok(parsed.accounts)
@@ -108,7 +108,7 @@ pub async fn broker_acquire_silent(account: &BrokerAccount) -> Result<BrokerToke
         "scopes": ["https://graph.microsoft.com/.default"],
         "authority": format!("https://login.microsoftonline.com/{}", account.realm)
     });
-    let result = call_broker(&conn, "acquireTokenSilently", &request.to_string(), Duration::from_secs(30)).await?;
+    let result = call_broker(&conn, "acquireTokenSilently", &request.to_string(), Duration::from_secs(10)).await?;
     let parsed: AcquireTokenResult =
         serde_json::from_str(&result).map_err(|e| format!("Failed to parse token response: {e}"))?;
     parsed
@@ -119,8 +119,12 @@ pub async fn broker_acquire_silent(account: &BrokerAccount) -> Result<BrokerToke
 pub async fn broker_acquire_interactive() -> Result<(BrokerAccount, BrokerTokenResponse), String> {
     let conn = broker_connection().await?;
 
-    // First get accounts to know who we have
-    let accounts = broker_get_accounts().await?;
+    // Get any cached accounts first (reuse same connection)
+    let accounts_request = serde_json::json!({ "clientId": CLIENT_ID });
+    let accounts_result = call_broker(&conn, "getAccounts", &accounts_request.to_string(), Duration::from_secs(5)).await?;
+    let accounts_parsed: GetAccountsResponse = serde_json::from_str(&accounts_result)
+        .map_err(|e| format!("Failed to parse accounts: {e}"))?;
+    let accounts = accounts_parsed.accounts;
 
     let request = if let Some(account) = accounts.first() {
         serde_json::json!({
@@ -147,8 +151,12 @@ pub async fn broker_acquire_interactive() -> Result<(BrokerAccount, BrokerTokenR
         .broker_token_response
         .ok_or_else(|| "No token in interactive response".to_string())?;
 
-    // Re-fetch accounts to get updated account info after interactive login
-    let updated_accounts = broker_get_accounts().await.unwrap_or_default();
+    // Re-fetch accounts on same connection to get updated account info
+    let updated_result = call_broker(&conn, "getAccounts", &accounts_request.to_string(), Duration::from_secs(5)).await.unwrap_or_default();
+    let updated_accounts: Vec<BrokerAccount> = serde_json::from_str::<GetAccountsResponse>(&updated_result)
+        .map(|r| r.accounts)
+        .unwrap_or_default();
+
     let account = updated_accounts
         .into_iter()
         .next()
