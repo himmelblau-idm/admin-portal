@@ -85,6 +85,13 @@ async fn call_broker(
         .await
         .map_err(|_| format!("{method} timed out after {}s", call_timeout.as_secs()))?
         .map_err(|e| format!("{method} D-Bus call failed: {e}"))
+        .and_then(|result| {
+            if result.trim().is_empty() {
+                Err(format!("{method} returned empty response (no cached token or broker unavailable)"))
+            } else {
+                Ok(result)
+            }
+        })
 }
 
 // ── Public broker functions ────────────────────────────────────────────────────
