@@ -1,0 +1,421 @@
+/* ── Loading screen ────────────────────────────────────────────────────────── */
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #d1d5db;
+  border-top-color: #396cd8;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Microsoft sign-in button ──────────────────────────────────────────────── */
+.ms-logo-area {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.ms-signin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.75em 1.2em;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: #0078d4;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.ms-signin-btn:hover:not(:disabled) {
+  background-color: #106ebe;
+}
+
+.ms-signin-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.ms-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.login-hint {
+  margin-top: 1.25rem;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── Auth info card in dashboard ───────────────────────────────────────────── */
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2em 0.6em;
+  background-color: #dcfce7;
+  color: #166534;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auth-info-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  max-width: 540px;
+}
+
+.auth-info-card h3 {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.auth-info-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.875rem;
+}
+
+.auth-info-row:last-child {
+  border-bottom: none;
+}
+
+.auth-info-label {
+  width: 90px;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.auth-info-value {
+  color: #111827;
+  word-break: break-all;
+}
+
+.token-preview {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #0f0f0f;
+  background-color: #f0f2f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ── Login ─────────────────────────────────────────────────────────────────── */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  color: #111827;
+}
+
+.login-subtitle {
+  margin: 0 0 1.75rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.35rem;
+}
+
+.form-group input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.6em 0.9em;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #111827;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #396cd8;
+  box-shadow: 0 0 0 3px rgba(57, 108, 216, 0.15);
+}
+
+.form-group input:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0.75rem;
+  text-align: center;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.7em 1.2em;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #ffffff;
+  background-color: #396cd8;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.login-btn:hover:not(:disabled) {
+  background-color: #2d58c0;
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Dashboard ─────────────────────────────────────────────────────────────── */
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f2f5;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.logout-btn {
+  padding: 0.4em 0.9em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: #374151;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 2rem;
+}
+
+.dashboard-main h2 {
+  margin: 0 0 0.5rem;
+  color: #111827;
+}
+
+.dashboard-placeholder {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* ── Dark mode ─────────────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #f6f6f6;
+    background-color: #1a1a2e;
+  }
+
+  .loading-screen {
+    background-color: #1a1a2e;
+    color: #9ca3af;
+  }
+
+  .spinner {
+    border-color: #374151;
+    border-top-color: #60a5fa;
+  }
+
+  .login-wrapper,
+  .dashboard {
+    background-color: #1a1a2e;
+  }
+
+  .login-card,
+  .dashboard-header {
+    background-color: #16213e;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .login-title,
+  .dashboard-header h1,
+  .dashboard-main h2 {
+    color: #f9fafb;
+  }
+
+  .login-subtitle,
+  .dashboard-placeholder,
+  .dashboard-user {
+    color: #9ca3af;
+  }
+
+  .form-group label {
+    color: #d1d5db;
+  }
+
+  .form-group input {
+    background-color: #0f3460;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .form-group input:disabled {
+    background-color: #1f2937;
+    color: #6b7280;
+  }
+
+  .logout-btn {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #d1d5db;
+  }
+
+  .logout-btn:hover {
+    background-color: #374151;
+  }
+
+  .auth-badge {
+    background-color: #14532d;
+    color: #86efac;
+  }
+
+  .auth-info-card {
+    background-color: #1f2937;
+    border-color: #374151;
+  }
+
+  .auth-info-card h3 {
+    color: #d1d5db;
+  }
+
+  .auth-info-row {
+    border-bottom-color: #374151;
+  }
+
+  .auth-info-label {
+    color: #9ca3af;
+  }
+
+  .auth-info-value {
+    color: #f3f4f6;
+  }
+
+  .login-hint {
+    color: #6b7280;
+  }
+}
