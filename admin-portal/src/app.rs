@@ -40,15 +40,17 @@ struct BrokerAccount {
 
 #[derive(Clone, PartialEq)]
 enum AppView {
-    Loading,
-    Login,
+    // Login page visible; checking=true while silent auth is in progress
+    Login { checking: bool },
     Dashboard { name: String, username: String, access_token: String },
 }
 
 pub fn App() -> Element {
-    let mut view = use_signal(|| AppView::Loading);
+    let mut view = use_signal(|| AppView::Login { checking: true });
 
-    // On mount: try silent auth via Himmelblau broker
+    // On mount: attempt silent auth in the background while Login page is shown.
+    // If it succeeds, jump straight to Dashboard. If it fails, flip checking→false
+    // so the login button becomes clickable.
     use_effect(move || {
         spawn(async move {
             match try_silent_auth().await {
@@ -57,20 +59,15 @@ pub fn App() -> Element {
                     username: info.username,
                     access_token: info.access_token,
                 }),
-                None => view.set(AppView::Login),
+                None => view.set(AppView::Login { checking: false }),
             }
         });
     });
 
     let content = match view.read().clone() {
-        AppView::Loading => rsx! {
-            div { class: "loading-screen",
-                div { class: "spinner" }
-                p { "Checking authentication…" }
-            }
-        },
-        AppView::Login => rsx! {
+        AppView::Login { checking } => rsx! {
             LoginPage {
+                checking,
                 on_login: move |info: TokenInfo| view.set(AppView::Dashboard {
                     name: info.name,
                     username: info.username,
@@ -83,7 +80,7 @@ pub fn App() -> Element {
                 name,
                 username,
                 access_token,
-                on_logout: move |_: ()| view.set(AppView::Login),
+                on_logout: move |_: ()| view.set(AppView::Login { checking: false }),
             }
         },
     };
@@ -95,14 +92,12 @@ pub fn App() -> Element {
 }
 
 async fn try_silent_auth() -> Option<TokenInfo> {
-    // 1. Get cached accounts from the broker (no args needed — pass empty object)
     let empty = js_sys::Object::new();
     let accounts_js = invoke("get_accounts", empty.into()).await.ok()?;
     let accounts: Vec<BrokerAccount> =
         serde_wasm_bindgen::from_value(accounts_js).ok()?;
     let account = accounts.into_iter().next()?;
 
-    // 2. Try silent token acquisition — Tauri expects { account: {...} }
     let wrapper = js_sys::Object::new();
     let account_val = serde_wasm_bindgen::to_value(&account).ok()?;
     js_sys::Reflect::set(&wrapper, &"account".into(), &account_val).ok()?;

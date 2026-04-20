@@ -12,7 +12,7 @@ extern "C" {
 }
 
 #[component]
-pub fn LoginPage(on_login: EventHandler<TokenInfo>) -> Element {
+pub fn LoginPage(checking: bool, on_login: EventHandler<TokenInfo>) -> Element {
     let mut loading = use_signal(|| false);
     let mut error = use_signal(|| String::new());
 
@@ -42,6 +42,9 @@ pub fn LoginPage(on_login: EventHandler<TokenInfo>) -> Element {
         }
     };
 
+    // Button is disabled while silent auth is in progress or interactive is running
+    let busy = checking || *loading.read();
+
     rsx! {
         div {
             class: "login-wrapper",
@@ -70,11 +73,13 @@ pub fn LoginPage(on_login: EventHandler<TokenInfo>) -> Element {
 
                 button {
                     class: "ms-signin-btn",
-                    disabled: *loading.read(),
+                    disabled: busy,
                     onclick: sign_in,
-                    if *loading.read() {
+                    if busy {
                         span { class: "btn-spinner" }
-                        span { "Signing in…" }
+                        span {
+                            if checking { "Checking saved session…" } else { "Signing in…" }
+                        }
                     } else {
                         span { class: "ms-icon",
                             svg {
