@@ -2,3 +2,9 @@
 nimcache/
 nimblecache/
 htmldocs/
+/dist/
+/target/
+/Cargo.lock
+/dist/
+/target/
+/Cargo.lock
