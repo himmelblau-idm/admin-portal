@@ -47,7 +47,7 @@ cd admin-portal
 Use this while developing. The app window opens immediately and reloads automatically whenever you edit a source file.
 
 ```bash
-cargo tauri dev
+WEBKIT_DISABLE_COMPOSITING_MODE=1 cargo tauri dev
 ```
 
 - Dioxus serves the frontend at `http://localhost:1420` and recompiles on every `.rs` / asset change.
