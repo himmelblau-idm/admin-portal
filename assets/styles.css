@@ -9,7 +9,7 @@
 :root {
   font-family: 'Segoe UI', 'SF Pro Display', system-ui, -apple-system,
                BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
   color: #111827;
@@ -102,7 +102,7 @@ body { margin: 0; padding: 0; }
 
 .login-subtitle {
   margin: 0 0 1.75rem;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   text-align: center;
   color: #64748b;
   line-height: 1.5;
@@ -146,7 +146,7 @@ body { margin: 0; padding: 0; }
 
 .login-hint {
   margin-top: 1.5rem;
-  font-size: 0.7rem;
+  font-size: 0.9375rem;
   color: #9ca3af;
   text-align: center;
   line-height: 1.5;
@@ -158,7 +158,7 @@ body { margin: 0; padding: 0; }
   background: #eff6ff;
   border: 1px solid #bfdbfe;
   border-radius: 3px;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #1e40af;
   text-align: center;
   line-height: 1.5;
@@ -166,7 +166,7 @@ body { margin: 0; padding: 0; }
 
 .error-msg {
   color: #b91c1c;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   margin: 0.25rem 0 0.75rem;
   text-align: center;
   padding: 0.45rem 0.75rem;
@@ -230,7 +230,7 @@ body { margin: 0; padding: 0; }
 }
 
 .brand-title {
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -243,7 +243,7 @@ body { margin: 0; padding: 0; }
 .nav-group-label {
   display: block;
   padding: 0.5rem 1rem 0.2rem;
-  font-size: 0.5625rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #2e4155;
@@ -260,7 +260,7 @@ body { margin: 0; padding: 0; }
   border: none;
   border-left: 3px solid transparent;
   color: #6a8499;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-family: inherit;
   text-align: left;
   cursor: pointer;
@@ -311,7 +311,7 @@ body { margin: 0; padding: 0; }
   background-color: rgba(22, 163, 74, 0.15);
   color: #4ade80;
   border-radius: 2px;
-  font-size: 0.5625rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -319,7 +319,7 @@ body { margin: 0; padding: 0; }
 }
 
 .sidebar-username {
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   color: #3d5166;
   word-break: break-all;
   line-height: 1.4;
@@ -329,7 +329,7 @@ body { margin: 0; padding: 0; }
   display: block;
   width: 100%;
   padding: 0.4em 0.75em;
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   font-family: inherit;
   letter-spacing: 0.04em;
@@ -380,7 +380,7 @@ body { margin: 0; padding: 0; }
 .view-header p {
   margin: 0;
   color: #64748b;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   line-height: 1.55;
 }
 
@@ -411,7 +411,7 @@ body { margin: 0; padding: 0; }
 
 .status-card h3 {
   margin: 0 0 0.3rem;
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -420,7 +420,7 @@ body { margin: 0; padding: 0; }
 
 .status-desc {
   margin: 0 0 0.875rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #94a3b8;
   line-height: 1.5;
 }
@@ -438,7 +438,7 @@ body { margin: 0; padding: 0; }
 .form-section h3 {
   margin: 0 0 1rem;
   padding-bottom: 0.625rem;
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -448,7 +448,7 @@ body { margin: 0; padding: 0; }
 
 .section-desc {
   margin: -0.5rem 0 1rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #94a3b8;
   line-height: 1.5;
 }
@@ -477,7 +477,7 @@ body { margin: 0; padding: 0; }
 }
 
 .form-group label {
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: #64748b;
@@ -491,7 +491,7 @@ body { margin: 0; padding: 0; }
   border-radius: 3px;
   padding: 0.4em 0.7em;
   height: 34px;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-family: inherit;
   color: #0f172a;
   background-color: #ffffff;
@@ -517,7 +517,7 @@ textarea {
   border: 1px solid #cbd5e1;
   border-radius: 3px;
   padding: 0.45em 0.7em;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-family: inherit;
   color: #0f172a;
   background-color: #ffffff;
@@ -546,7 +546,7 @@ textarea:focus {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   color: #334155;
   cursor: pointer;
 }
@@ -554,7 +554,7 @@ textarea:focus {
 /* ── Field hint ────────────────────────────────────────────────────────────── */
 .field-hint {
   margin: 0.25rem 0 0;
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   color: #94a3b8;
   line-height: 1.4;
 }
@@ -567,7 +567,7 @@ textarea:focus {
   gap: 0.4rem;
   margin-top: 0.75rem;
   padding: 0.45em 1.1em;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   font-family: inherit;
   letter-spacing: 0.01em;
@@ -593,7 +593,7 @@ textarea:focus {
   margin-top: 0.75rem;
   margin-left: 0.5rem;
   padding: 0.45em 1.1em;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   font-family: inherit;
   color: #475569;
@@ -626,7 +626,7 @@ textarea:focus {
 
 .tab-btn {
   padding: 0.5em 1.125em;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   font-family: inherit;
   letter-spacing: 0.01em;
@@ -654,7 +654,7 @@ textarea:focus {
   border-radius: 3px;
   font-family: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas',
                'Courier New', monospace;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.65;
   white-space: pre-wrap;
   word-break: break-word;
@@ -685,7 +685,7 @@ textarea:focus {
   border: 1px solid #fde68a;
   border-left: 3px solid #d97706;
   border-radius: 3px;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #78350f;
   line-height: 1.45;
@@ -704,7 +704,7 @@ textarea:focus {
 
 .auth-info-card h3 {
   margin: 0 0 0.75rem;
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -718,7 +718,7 @@ textarea:focus {
   gap: 0.875rem;
   padding: 0.3rem 0;
   border-bottom: 1px solid #f1f5f9;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .auth-info-row:last-child { border-bottom: none; }
@@ -737,7 +737,7 @@ textarea:focus {
 
 .token-preview {
   font-family: 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 0.6875rem;
+  font-size: 0.9375rem;
   color: #475569;
 }
 
@@ -902,21 +902,21 @@ textarea:focus {
   padding: 0.55rem 2.5rem;
   background-color: #eff6ff;
   border-bottom: 1px solid #bfdbfe;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: #1e3a8a;
   line-height: 1.5;
 }
 
 .admin-notice-icon {
   flex-shrink: 0;
-  font-size: 0.5625rem;
+  font-size: 0.9375rem;
   color: #3b82f6;
   margin-top: 0.15rem;
 }
 
 /* ── Sidebar admin badge (lock indicator on elevated nav items) ─────────────── */
 .nav-admin-badge {
-  font-size: 0.45rem;
+  font-size: 0.9375rem;
   color: #3b82f6;
   opacity: 0.5;
   flex-shrink: 0;
@@ -976,7 +976,7 @@ textarea:focus {
 
 .root-error-body {
   color: #475569;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   line-height: 1.65;
   text-align: center;
   margin: 0 0 1.375rem;
@@ -984,7 +984,7 @@ textarea:focus {
 
 .root-error-body code {
   font-family: 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
   border-radius: 3px;
@@ -997,7 +997,7 @@ textarea:focus {
   border: 1px solid #e2e8f0;
   border-radius: 4px;
   padding: 1rem 1.25rem;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: #475569;
   line-height: 1.6;
 }
@@ -1012,7 +1012,7 @@ textarea:focus {
   padding: 0.5rem 0.875rem;
   border-radius: 3px;
   font-family: 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   margin: 0 0 0.75rem;
   white-space: pre;
 }
