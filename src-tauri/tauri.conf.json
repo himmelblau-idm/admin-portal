@@ -4,11 +4,7 @@
   "version": "0.1.0",
   "identifier": "com.himmelblau.admin-portal",
   "build": {
-    "beforeDevCommand": {
-      "script": "dx serve --port 1420 --interactive false",
-      "wait": true,
-      "devServerPort": 1420
-    },
+    "beforeDevCommand": "dx serve --port 1420 --interactive false",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "dx bundle --release",
     "frontendDist": "../dist/public"
