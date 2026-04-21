@@ -33,24 +33,57 @@ cargo install tauri-cli --version "^2"
 
 ```bash
 # Clone and enter the project
-git clone <repo-url>
+git clone https://github.com/himmelblau-idm/admin-portal.git
 cd admin-portal
+```
 
-# Launch in development mode (hot-reload)
+## Building
+
+### Development build (hot-reload)
+
+Use this while developing. The app window opens immediately and reloads automatically whenever you edit a source file.
+
+```bash
 cargo tauri dev
 ```
 
-A native window opens. Sign in with your Microsoft Entra ID account — a PIN dialog may appear if Windows Hello is configured.
+- Dioxus serves the frontend at `http://localhost:1420` and recompiles on every `.rs` / asset change.
+- The Tauri backend restarts automatically when `src-tauri/src/` changes.
+- A native window opens connected to the live dev server.
 
 > **Do not run with `sudo`.** Himmelblau requires a D-Bus session bus that is stripped when running as root. Operations that need elevated privileges will prompt for authentication automatically.
 
-## Building for release
+### Release build
+
+Compiles the frontend to WASM, bundles everything into a native binary, and produces distributable packages.
 
 ```bash
 cargo tauri build
 ```
 
-The distributable bundle (`.deb`, `.rpm`, AppImage, etc.) is written to `src-tauri/target/release/bundle/`.
+Output bundles are written to `target/release/bundle/`:
+
+| Format | Path |
+|---|---|
+| Debian package | `target/release/bundle/deb/admin-portal_<version>_amd64.deb` |
+| RPM package | `target/release/bundle/rpm/admin-portal-<version>-1.x86_64.rpm` |
+| AppImage | `target/release/bundle/appimage/admin-portal_<version>_amd64.AppImage` |
+
+The standalone binary is at `target/release/admin-portal`.
+
+### Cleaning the project
+
+Remove all build artifacts (Rust, WASM, and Dioxus caches):
+
+```bash
+cargo clean
+```
+
+To also remove the Dioxus frontend output:
+
+```bash
+cargo clean && rm -rf dist/
+```
 
 ---
 
