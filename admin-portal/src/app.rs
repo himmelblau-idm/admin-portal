@@ -42,17 +42,28 @@ struct BrokerAccount {
 enum AppView {
     // Login page visible; checking=true while silent auth is in progress
     Login { checking: bool },
+    // App was launched as root — block and show error
+    RootError,
     Dashboard { name: String, username: String, access_token: String },
 }
 
 pub fn App() -> Element {
     let mut view = use_signal(|| AppView::Login { checking: true });
 
-    // On mount: attempt silent auth in the background while Login page is shown.
-    // If it succeeds, jump straight to Dashboard. If it fails, flip checking→false
-    // so the login button becomes clickable.
+    // On mount: first check if running as root (breaks D-Bus). If so, show
+    // error screen. Otherwise attempt silent auth while login page shows.
     use_effect(move || {
         spawn(async move {
+            // Root guard: running as root strips DBUS_SESSION_BUS_ADDRESS,
+            // making authentication impossible.
+            let empty = js_sys::Object::new();
+            if let Ok(js) = invoke("check_is_root", empty.into()).await {
+                if js.as_bool().unwrap_or(false) {
+                    view.set(AppView::RootError);
+                    return;
+                }
+            }
+
             match try_silent_auth().await {
                 Some(info) => view.set(AppView::Dashboard {
                     name: info.name,
@@ -75,6 +86,7 @@ pub fn App() -> Element {
                 }),
             }
         },
+        AppView::RootError => rsx! { RootErrorScreen {} },
         AppView::Dashboard { name, username, access_token } => rsx! {
             Dashboard {
                 name,
@@ -88,6 +100,33 @@ pub fn App() -> Element {
     rsx! {
         link { rel: "stylesheet", href: CSS }
         {content}
+    }
+}
+
+#[component]
+fn RootErrorScreen() -> Element {
+    rsx! {
+        div { class: "root-error-screen",
+            div { class: "root-error-card",
+                div { class: "root-error-icon", "⊘" }
+                h1 { class: "root-error-title", "Cannot run as administrator" }
+                p { class: "root-error-body",
+                    "Admin Portal must be launched as your regular user account. "
+                    "Running with "
+                    code { "sudo" }
+                    " strips the D-Bus session required for Entra ID authentication."
+                }
+                div { class: "root-error-fix",
+                    p { "Launch the application without sudo:" }
+                    pre { class: "root-error-cmd", "admin-portal" }
+                    p {
+                        "Operations that require administrator privileges will automatically "
+                        "request authentication via a system dialog (polkit / pkexec) "
+                        "when you execute them."
+                    }
+                }
+            }
+        }
     }
 }
 

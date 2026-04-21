@@ -62,9 +62,9 @@ pub fn LoginPage(checking: bool, on_login: EventHandler<TokenInfo>) -> Element {
                         rect { x: "11", y: "11", width: "9", height: "9", fill: "#ffb900" }
                     }
                 }
-                h1 { class: "login-title", "Admin Portal" }
+                h1 { class: "login-title", "Himmelblau Admin Portal" }
                 p { class: "login-subtitle",
-                    "Sign in with your Microsoft Entra ID account"
+                    "Sign in with your Microsoft Entra ID account to continue"
                 }
 
                 if !error.read().is_empty() {
@@ -99,7 +99,7 @@ pub fn LoginPage(checking: bool, on_login: EventHandler<TokenInfo>) -> Element {
 
                 if *loading.read() {
                     p { class: "pin-hint",
-                        "🔐 A PIN dialog may appear — enter your Hello PIN to continue."
+                        "A PIN dialog may appear — enter your Windows Hello PIN to continue."
                     }
                 }
 

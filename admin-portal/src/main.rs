@@ -1,6 +1,7 @@
 mod app;
 mod dashboard;
 mod login;
+mod views;
 
 use app::App;
 use dioxus::prelude::*;
