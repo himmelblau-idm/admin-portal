@@ -1,5 +1,4 @@
 use std::process::Stdio;
-use tokio::io::AsyncWriteExt;
 use tokio::process::Command;
 
 pub async fn run_aad_tool(args: Vec<String>) -> Result<String, String> {
@@ -11,64 +10,6 @@ pub async fn run_aad_tool_as_root(args: Vec<String>) -> Result<String, String> {
     let aad_tool = find_aad_tool()?;
     let pkexec = find_pkexec()?;
     run_inner(&pkexec, &[aad_tool.as_str()], args, true).await
-}
-
-/// Run `aad-tool` and feed `stdin_data` to the process via stdin.
-/// Used for commands that prompt for credentials interactively.
-pub async fn run_aad_tool_with_stdin(
-    args: Vec<String>,
-    stdin_data: String,
-) -> Result<String, String> {
-    let path = find_aad_tool()?;
-
-    // Run aad-tool in a new session via `setsid` so it has no controlling
-    // terminal. Without a controlling terminal, /dev/tty cannot be opened and
-    // tools that use rpassword/PAM for PIN input fall back to reading from
-    // stdin — which we pipe from the frontend GUI field.
-    //
-    // The child process spawned by Tokio is never a process group leader
-    // (its PID != PGID), so setsid() succeeds and execs aad-tool directly
-    // (no fork needed, exit code propagates correctly).
-    let mut child = Command::new("setsid")
-        .arg(&path)
-        .args(&args)
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Failed to spawn aad-tool via setsid: {e}"))?;
-
-    // Write the credential and close stdin (sends EOF so the tool doesn't hang)
-    if let Some(mut stdin) = child.stdin.take() {
-        let _ = stdin.write_all(stdin_data.as_bytes()).await;
-        // stdin dropped here → EOF delivered
-    }
-
-    let output = child
-        .wait_with_output()
-        .await
-        .map_err(|e| format!("Failed to wait for aad-tool: {e}"))?;
-
-    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
-    let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
-    let combined = combine(stdout, stderr);
-
-    if output.status.success() {
-        Ok(if combined.is_empty() {
-            "(completed successfully)".into()
-        } else {
-            combined
-        })
-    } else {
-        Err(if combined.is_empty() {
-            format!(
-                "Command failed with exit code {}",
-                output.status.code().unwrap_or(-1)
-            )
-        } else {
-            combined
-        })
-    }
 }
 
 /// Locate the `aad-tool` binary, preferring absolute paths.

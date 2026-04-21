@@ -1,7 +1,7 @@
 mod aad_tool;
 mod broker;
 
-use aad_tool::{run_aad_tool, run_aad_tool_as_root, run_aad_tool_with_stdin};
+use aad_tool::{run_aad_tool, run_aad_tool_as_root};
 use broker::{BrokerAccount, BrokerTokenResponse, broker_acquire_interactive, broker_acquire_silent, broker_get_accounts};
 use serde::Serialize;
 
@@ -83,19 +83,6 @@ async fn aad_tool_tpm() -> Result<String, String> {
 #[tauri::command]
 async fn aad_tool_version() -> Result<String, String> {
     run_aad_tool(vec!["version".into()]).await
-}
-
-// ── Auth Test ─────────────────────────────────────────────────────────────────
-
-#[tauri::command]
-async fn aad_tool_auth_test(name: String, password: String) -> Result<String, String> {
-    // aad-tool auth-test reads the credential from stdin; we pipe it directly
-    // so no terminal prompt appears.
-    run_aad_tool_with_stdin(
-        vec!["auth-test".into(), "--name".into(), name],
-        format!("{password}\n"),
-    )
-    .await
 }
 
 // ── Cache ─────────────────────────────────────────────────────────────────────
@@ -352,7 +339,7 @@ pub fn run() {
             aad_tool_tpm,
             aad_tool_version,
             // Auth test
-            aad_tool_auth_test,
+            // aad_tool_auth_test,
             // Cache
             aad_tool_cache_clear,
             aad_tool_enumerate,

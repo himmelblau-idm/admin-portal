@@ -3,7 +3,6 @@
 use dioxus::prelude::*;
 
 use crate::views::application::ApplicationView;
-use crate::views::auth_test::AuthTestView;
 use crate::views::breakglass::BreakglassView;
 use crate::views::cache::CacheView;
 use crate::views::creds::CredsView;
@@ -23,7 +22,6 @@ enum Section {
     IdMap,
     Credentials,
     PamConfig,
-    AuthTest,
     Breakglass,
 }
 
@@ -38,7 +36,6 @@ impl Section {
             Self::IdMap        => "ID Mapping",
             Self::Credentials  => "Credentials",
             Self::PamConfig    => "PAM Config",
-            Self::AuthTest     => "Auth Test",
             Self::Breakglass   => "Offline Breakglass",
         }
     }
@@ -53,7 +50,6 @@ impl Section {
             Self::IdMap        => "⇄",
             Self::Credentials  => "◆",
             Self::PamConfig    => "≡",
-            Self::AuthTest     => "⊙",
             Self::Breakglass   => "⚑",
         }
     }
@@ -129,7 +125,6 @@ pub fn Dashboard(
                 div { class: "nav-group",
                     span { class: "nav-group-label", "DIAGNOSTICS" }
                     {nav_item(Section::Cache, &current)}
-                    {nav_item(Section::AuthTest, &current)}
                 }
 
                 div { class: "sidebar-footer",
@@ -165,7 +160,6 @@ pub fn Dashboard(
                     Section::IdMap        => rsx! { IdMapView {} },
                     Section::Credentials  => rsx! { CredsView {} },
                     Section::PamConfig    => rsx! { PamView {} },
-                    Section::AuthTest     => rsx! { AuthTestView { username: uname.clone() } },
                     Section::Breakglass   => rsx! { BreakglassView {} },
                 }}
             }

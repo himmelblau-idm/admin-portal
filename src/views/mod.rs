@@ -6,5 +6,4 @@ pub mod groups;
 pub mod idmap;
 pub mod creds;
 pub mod pam;
-pub mod auth_test;
 pub mod breakglass;
