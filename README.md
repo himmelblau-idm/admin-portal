@@ -1,6 +1,9 @@
 # Himmelblau Admin Portal
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-blue.svg)](LICENSE)
+![Status: Work in Progress](https://img.shields.io/badge/status-work%20in%20progress-yellow)
+
+> **⚠️ Work in Progress** — this project is under active development. Features may be incomplete, APIs may change, and builds may occasionally be unstable.
 
 A desktop GUI for administering [Himmelblau](https://github.com/himmelblau-idm/himmelblau) — the Microsoft Entra ID (Azure AD) identity broker for Linux. All the power of `aad-tool` in a point-and-click interface, with privileged operations handled transparently via polkit.
 
@@ -273,6 +276,13 @@ admin-portal/
 ### Hot-reload
 
 `cargo tauri dev` starts both the Dioxus dev server (`dx serve --port 1420`) and the Tauri process. Editing any `.rs` file in `src/` triggers an automatic WASM rebuild and page reload. Changes to `src-tauri/src/` restart the Tauri backend.
+
+---
+
+## Recent changes
+
+- **Font sizes increased** — base font raised from 14 px to 16 px; all UI text scaled up proportionally so nothing renders below 14 px. ([commit a58b5c9](https://github.com/himmelblau-idm/admin-portal/commit/a58b5c9))
+- **Default window size** — increased from 800 × 600 to 1280 × 800.
 
 ---
 
